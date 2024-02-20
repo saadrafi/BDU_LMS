@@ -66,7 +66,6 @@ const Register = () => {
           <div className=" flex md:flex-row md:space-y-0 md:space-x-2 flex-col space-y-4 justify-between">
             <div className="flex flex-col gap-1">
               <TextField
-              
                 label="First Name"
                 variant="outlined"
                 fullWidth
@@ -99,15 +98,25 @@ const Register = () => {
                   value: 10,
                   message: "Invalid ID",
                 },
+                minLength: {
+                  value: 10,
+                  message: "Invalid ID",
+                },
               }}
               render={({ field }) => (
-                <OutlinedInput placeholder="2011111" id="outlined-adornment-id" type="text" label="ID" {...field} />
+                <OutlinedInput
+                  placeholder="2011111"
+                  id="outlined-adornment-id"
+                  type="text"
+                  label="ID"
+                  {...field}
+                />
               )}
             ></Controller>
             {errors.id?.type == "required" && (
               <p className="text-sm text-red-700">{errors.id.message}</p>
             )}
-            {errors.id?.type === "maxLength" && (
+            {(errors.id?.type === "maxLength" || errors.id?.type === "minLength") && (
               <p className="text-sm text-red-700">{errors.id.message}</p>
             )}
           </FormControl>
@@ -123,10 +132,15 @@ const Register = () => {
                   value: 13,
                   message: "Invalid Phone",
                 },
-                
               }}
               render={({ field }) => (
-                <OutlinedInput placeholder="01333333333" id="outlined-adornment-phone" type="text" label="Phone" {...field} />
+                <OutlinedInput
+                  placeholder="01333333333"
+                  id="outlined-adornment-phone"
+                  type="text"
+                  label="Phone"
+                  {...field}
+                />
               )}
             ></Controller>
             {errors.phone?.type == "required" && (
