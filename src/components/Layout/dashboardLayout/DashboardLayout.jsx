@@ -46,7 +46,7 @@ const DashboardLayout = () => {
         >
           <Navbar />
         </div>
-        <div className=" col-span-5 md:col-span-4  bg-red-200">
+        <div className=" col-span-5 md:col-span-4">
           <div className="p-4">
             <Outlet></Outlet>
           </div>

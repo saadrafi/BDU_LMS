@@ -7,8 +7,8 @@ const SingleNavLink = ({ to, title }) => {
       to={to}
       end
       className={({ isActive }) =>
-        ` text-gray-700  px-3 py-2 rounded-l-md text-sm font-medium ${
-          isActive ? "bg-gray-300 text-[#0C61A2]" : " hover:bg-gray-300"
+        `   px-3 py-2 rounded-l-md text-sm font-medium ${
+          isActive ? "bg-gray-300 text-[#0C61A2]" : " hover:bg-gray-300 text-gray-700"
         }`
       }
     >

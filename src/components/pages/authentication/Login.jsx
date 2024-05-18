@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Login = () => {
@@ -27,6 +27,7 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     fetch("http://localhost:5000/auth/login", {
@@ -46,6 +47,27 @@ const Login = () => {
             position: "center",
             icon: "success",
             title: "Login Success",
+            text: data.msg,
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          navigate(`/dashboard/${data.role}`);
+        } else if (data.isVerified == false) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Verify Your Account",
+            text: data.msg,
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          console.log(data.email);
+          navigate("/verify-otp", { state: { email: data.email } });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Login Failed",
             text: data.msg,
             showConfirmButton: false,
             timer: 1000,

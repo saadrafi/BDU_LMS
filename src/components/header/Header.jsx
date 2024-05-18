@@ -5,15 +5,18 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = ({handleNavbarIsOpen}) => {
+const Header = ({ handleNavbarIsOpen }) => {
   return (
     <>
       <div className="flex pt-2 px-2 justify-between items-center bg-neutral-200 drop-shadow-md ">
         <div className=" flex items-center">
-          <IconButton sx={{display:{
-            sm:"none",
-          }}} 
-          onClick={handleNavbarIsOpen}
+          <IconButton
+            sx={{
+              display: {
+                sm: "none",
+              },
+            }}
+            onClick={handleNavbarIsOpen}
           >
             <MenuIcon sx={{ fontSize: 40 }} />
           </IconButton>

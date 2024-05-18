@@ -7,11 +7,13 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Select,
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {
@@ -27,10 +29,13 @@ const Register = () => {
       email: "",
       password: "",
       phone: "",
+      semester: "",
     },
   });
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     fetch("http://localhost:5000/auth/register", {
@@ -43,6 +48,27 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if (data.status == 200) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Register Success",
+            text: data.msg,
+            showConfirmButton: false,
+            timer: 1000,
+          });
+
+          setTimeout(() => {
+            navigate("/verify-otp", { state: { email: data.email } });
+          }, 1000);
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Register Failed",
+            text: data.msg,
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -95,11 +121,11 @@ const Register = () => {
               rules={{
                 required: "ID is required",
                 maxLength: {
-                  value: 10,
+                  value: 7,
                   message: "Invalid ID",
                 },
                 minLength: {
-                  value: 10,
+                  value: 7,
                   message: "Invalid ID",
                 },
               }}
@@ -214,6 +240,38 @@ const Register = () => {
                 Password must contain at least one upper case letter and one special character
               </p>
             )}
+          </FormControl>
+          {/* select semester */}
+          <FormControl fullWidth sx={{ mt: 1 }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-role">Semester</InputLabel>
+            <Controller
+              name="semester"
+              control={control}
+              rules={{ required: "semester is required" }}
+              render={({ field }) => (
+                <Select
+                  id="outlined-adornment-semester"
+                  native
+                  label="Semester"
+                  {...field}
+                  inputProps={{
+                    name: "Semester",
+                    id: "outlined-adornment-semester",
+                  }}
+                >
+                  <option aria-label="None" value="" />
+                  <option value={"l1t1"}>Level 1 Term 1</option>
+                  <option value={"l1t2"}>Level 1 Term 2</option>
+                  <option value={"l2t1"}>Level 2 Term 1</option>
+                  <option value={"l2t2"}>Level 2 Term 2</option>
+                  <option value={"l3t1"}>Level 3 Term 1</option>
+                  <option value={"l3t2"}>Level 3 Term 2</option>
+                  <option value={"l4t1"}>Level 4 Term 1</option>
+                  <option value={"l4t2"}>Level 4 Term 2</option>
+                </Select>
+              )}
+            ></Controller>
+            {errors.semester && <p className="text-sm text-red-700">{errors.semester.message}</p>}
           </FormControl>
           <Button variant="outlined" color={"secondary"} type="submit">
             Register
